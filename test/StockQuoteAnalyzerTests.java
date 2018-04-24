@@ -43,7 +43,7 @@ public class StockQuoteAnalyzerTests {
 	{
 		//Arrange
         //Act
-		analyzer = new StockQuoteAnalyzer("ZZZZZZZZZ", mockedStockQuoteGenerator, mockedStockTickerAudio);
+				analyzer = new StockQuoteAnalyzer("ZZZZZZZZZ", mockedStockQuoteGenerator, mockedStockTickerAudio);
 
 		//Assert
 	}
