@@ -1,13 +1,13 @@
 /**
  * (c) Copyright 2008, Dr. Walter W. Schilling, Jr.
- * ALL RIGHTS RESERVED 
- * Permission to use, copy, modify, and distribute this software for 
+ * ALL RIGHTS RESERVED
+ * Permission to use, copy, modify, and distribute this software for
  * any purpose and without fee is hereby granted, provided that the above
  * copyright notice appear in all copies and that both the copyright notice
- * and this permission notice appear in supporting documentation, and that 
+ * and this permission notice appear in supporting documentation, and that
  * the name of Walter W. Schilling, Jr. not be used in advertising
  * or publicity pertaining to distribution of the software without specific,
- * written prior permission. 
+ * written prior permission.
  *
  * THE MATERIAL EMBODIED ON THIS SOFTWARE IS PROVIDED TO YOU "AS-IS"
  * AND WITHOUT WARRANTY OF ANY KIND, EXPRESS, IMPLIED OR OTHERWISE,
@@ -20,16 +20,16 @@
  * THIRD PARTIES, WHETHER OR NOT WALTER SCHILLING HAS BEEN
  * ADVISED OF THE POSSIBILITY OF SUCH LOSS, HOWEVER CAUSED AND ON
  * ANY THEORY OF LIABILITY, ARISING OUT OF OR IN CONNECTION WITH THE
- * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE. 
- * 
+ * POSSESSION, USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
  * @version $Rev:: 4                       $:  Revision of last commit
  * @author  $Author:: schilling            $:  Author of last commit
  * $Date:: 2011-6-8 19:51:02 -0#$:  Date of last commit
  * $Log$:
- * Modified code so that constructing a new instance does not automatically call the refresh operation. 
- * 
+ * Modified code so that constructing a new instance does not automatically call the refresh operation.
+ *
  * This class is responsible for analyzing a set of stock quotes and making the appropriate decisions about them.
- * 
+ *
  */
 
 import exceptions.InvalidAnalysisState;
@@ -38,7 +38,7 @@ import exceptions.StockTickerConnectionError;
 
 /**
  * @author schilling
- * 
+ *
  */
 public class StockQuoteAnalyzer {
 	/**
@@ -88,21 +88,29 @@ public class StockQuoteAnalyzer {
 		super();
 
 		// Check the validity of the symbol.
+        //Check symbol
 		if (StockTickerListing.getSingleton().isValidTickerSymbol(symbol) == true) {
 			this.symbol = symbol;
 		} else {
-			throw new StockTickerConnectionError("Symbol " + symbol + "not found.");
-		}
-		if (stockQuoteSource == null) {
-			throw new InvalidStockSymbolException("The source for stock quotes can not be null");
-		}
+		    throw new InvalidStockSymbolException("The symbol passed in is invalid");
+        }
+
+        if (stockQuoteSource == null) {
+		    throw new NullPointerException("The source for stock quotes can not be nul");
+        }
+
+        if(audioPlayer == null) {
+		    throw new StockTickerConnectionError("Not valid Stock Ticker");
+        }
+
+
 		this.stockQuoteSource = stockQuoteSource;
 		this.audioPlayer = audioPlayer;
 	}
 
 	/**
 	 * Get the latest stock info from the source and analyze it.
-	 * 
+	 *
 	 * @throws StockTickerConnectionError
 	 *             Will be thrown if the routine is unable to obtain a current
 	 *             stock quote.
@@ -156,7 +164,7 @@ public class StockQuoteAnalyzer {
 
 	/**
 	 * This method will return the previous open for the given stock.
-	 * 
+	 *
 	 * @return The previous closing value for the stock will be returned.
 	 * @throws InvalidAnalysisState
 	 *             An InvalidAnalysisState Exception will be thrown if a quote
@@ -171,7 +179,7 @@ public class StockQuoteAnalyzer {
 
 	/**
 	 * This method will return the current selling price for the given stock.
-	 * 
+	 *
 	 * @return The return value will be the last traded value for the given
 	 *         stock, otherwise known as the current price.
 	 * @throws InvalidAnalysisState
@@ -188,7 +196,7 @@ public class StockQuoteAnalyzer {
 	/**
 	 * This method will return the change since the previous open for the given
 	 * stock.
-	 * 
+	 *
 	 * @return The change in dollars will be returned.
 	 * @throws InvalidAnalysisState
 	 *             An InvalidAnalysisState Exception will be thrown if a quote
@@ -204,7 +212,7 @@ public class StockQuoteAnalyzer {
 	/**
 	 * This method will return the percent change for the given stock since
 	 * opening.
-	 * 
+	 *
 	 * @return The percent change for the given stock will be returned. It will
 	 *         be accurate to the nearest .01%.
 	 * @throws InvalidAnalysisState
@@ -224,7 +232,7 @@ public class StockQuoteAnalyzer {
 	 * market is open, this will be the change that has occurred since the last
 	 * time the value was checked. If the market is closed or the value has not
 	 * changed since the last check, then this will be 0.
-	 * 
+	 *
 	 * @return The raw changed value for the given stock will be returned.
 	 * @throws InvalidAnalysisState
 	 *             An invalid analysis state will be thrown if there have not
@@ -244,7 +252,7 @@ public class StockQuoteAnalyzer {
 
 	/**
 	 * This method will obtain the current quote from inside the system.
-	 * 
+	 *
 	 * @return the currentQuote
 	 */
 	final StockQuoteInterface getCurrentQuote() {
