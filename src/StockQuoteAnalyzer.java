@@ -88,22 +88,14 @@ public class StockQuoteAnalyzer {
 		super();
 
 		// Check the validity of the symbol.
-        //Check symbol
 		if (StockTickerListing.getSingleton().isValidTickerSymbol(symbol) == true) {
 			this.symbol = symbol;
 		} else {
-		    throw new InvalidStockSymbolException("The symbol passed in is invalid");
-        }
-
-        if (stockQuoteSource == null) {
-		    throw new NullPointerException("The source for stock quotes can not be nul");
-        }
-
-        if(audioPlayer == null) {
-		    throw new StockTickerConnectionError("Not valid Stock Ticker");
-        }
-
-
+			throw new StockTickerConnectionError("Symbol " + symbol + "not found.");
+		}
+		if (stockQuoteSource == null) {
+			throw new InvalidStockSymbolException("The source for stock quotes can not be null");
+		}
 		this.stockQuoteSource = stockQuoteSource;
 		this.audioPlayer = audioPlayer;
 	}
@@ -121,7 +113,7 @@ public class StockQuoteAnalyzer {
 			StockQuoteInterface temp = this.stockQuoteSource.getCurrentQuote();
 
 			this.previousQuote = currentQuote;
-			this.currentQuote = this.previousQuote;
+			this.currentQuote = temp;
 		} catch (Exception e) {
 			throw new StockTickerConnectionError("Unable to connect with Stock Ticker Source.");
 		}
