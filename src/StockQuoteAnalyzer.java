@@ -87,7 +87,7 @@ public class StockQuoteAnalyzer {
         super();
 
         //Check symbol
-        if (StockTickerListing.getSingleton().isValidTickerSymbol(symbol) == true) {
+        if (StockTickerListing.getSingleton().isValidTickerSymbol(symbol)) {
             this.symbol = symbol;
         } else {
             throw new InvalidStockSymbolException("The symbol passed in is invalid");
@@ -141,10 +141,10 @@ public class StockQuoteAnalyzer {
     public void playAppropriateAudio() {
         if (audioPlayer != null) {
             try {
-                if ((this.getPercentChangeSinceOpen() > 1) || (this.getChangeSinceLastCheck() > 1.00)) {
+                if ((this.getPercentChangeSinceOpen() > 1.0) || (this.getChangeSinceLastCheck() > 1.00)) {
                     audioPlayer.playHappyMusic();
                 }
-                if ((this.getPercentChangeSinceOpen() < -1) || (this.getChangeSinceLastCheck() < -1.00)) {
+                if ((this.getPercentChangeSinceOpen() < -1.0) || (this.getChangeSinceLastCheck() < -1.00)) {
                     audioPlayer.playSadMusic();
                 }
             } catch (InvalidAnalysisState e) {
@@ -225,8 +225,8 @@ public class StockQuoteAnalyzer {
             throw new InvalidAnalysisState("No quote has ever been retrieved.");
         }
 
-        return Math.round((10000 * this.currentQuote.getChange() / this.currentQuote.getOpen())) % 100.0;
-    }
+		return Math.round((10000 * this.currentQuote.getChange() / this.currentQuote.getOpen())) % 100.0;
+	}
 
     /**
      * This method will return the change in price since the last check. If the
@@ -247,7 +247,6 @@ public class StockQuoteAnalyzer {
         if (previousQuote == null) {
             return 0.0; //no change if only one quote.
         }
-
         return currentQuote.getLastTrade() - previousQuote.getLastTrade();
     }
 
