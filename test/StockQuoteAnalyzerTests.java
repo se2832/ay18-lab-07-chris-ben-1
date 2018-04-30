@@ -278,7 +278,31 @@ public class StockQuoteAnalyzerTests {
         Assert.assertEquals(analyzer.getPreviousOpen(), firstReturn.getOpen(), 0.01);
 	}
 
-	
+	@Test(dataProvider = "normalOperationDataProvider")
+	public void testGetCurrentQuote(StockQuote firstReturn, StockQuote secondReturn, int happyMusicCount, int sadMusicCount, double percentChange) throws Exception {
+        // Assert
+        when(mockedStockQuoteGenerator.getCurrentQuote()).thenReturn(firstReturn);
+        analyzer = new StockQuoteAnalyzer("F", mockedStockQuoteGenerator, mockedStockTickerAudio);
+
+        // Act
+        StockQuote actualQuote = (StockQuote)analyzer.getCurrentQuote();
+
+        // Assert
+        Assert.assertEquals(analyzer.getCurrentQuote(),actualQuote);
+	}
+
+    @Test(dataProvider = "normalOperationDataProvider")
+    public void testGetSymbol(StockQuote firstReturn, StockQuote secondReturn, int happyMusicCount, int sadMusicCount, double percentChange) throws Exception {
+        // Assert
+        when(mockedStockQuoteGenerator.getCurrentQuote()).thenReturn(firstReturn);
+        analyzer = new StockQuoteAnalyzer("F", mockedStockQuoteGenerator, mockedStockTickerAudio);
+
+        // Act
+        String actualSymbol = analyzer.getSymbol();
+
+        // Assert
+        Assert.assertEquals(analyzer.getSymbol(),actualSymbol);
+    }
 
 	
 	
